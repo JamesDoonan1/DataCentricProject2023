@@ -3,13 +3,14 @@
 <h1>Add Store</h1>
 
 <form action="/stores/add" method="post">
+    <label for="sid">Store ID:</label>
+    <input type="text" id="sid" name="sid" required>
+
     <label for="location">Location:</label>
     <input type="text" id="location" name="location" required>
 
     <label for="mgrid">Manager ID:</label>
     <input type="text" id="mgrid" name="mgrid" required>
-
-    <!-- Add other form fields as needed -->
 
     <button type="submit">Add Store</button>
 </form>

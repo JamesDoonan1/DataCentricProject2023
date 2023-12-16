@@ -13,29 +13,30 @@ async function getStoresPage(req, res) {
 
 function getAddStorePage(req, res) {
     // Your implementation for rendering the add store page
-    res.render('addStores'); 
+    res.render('addStores');
 }
 
 //add stores
 async function postAddStore(req, res) {
     try {
-        // Extract data from the form submission
-        const { location, managerId } = req.body;
-
-        // Check if location is defined before using it
-        if (!location) {
-            return res.status(400).send('Location is required');
-        }
-        // Add the store to the database
-        await mysqlModel.addStore(location, managerId);
-
-        // Redirect to the stores page after successful addition
-        res.redirect('/stores');
+      const { sid, location, mgrid } = req.body;
+  
+      // Check if location and mgrid are defined before using them
+      if (!location || !mgrid) {
+        return res.status(400).send('Location and Manager ID are required');
+      }
+  
+      const storeData = { sid, location, mgrid };
+      await mysqlModel.addStore(storeData);
+  
+      // Redirect to the stores page after successful addition
+      res.redirect('/stores');
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
+      console.error('Error in postAddStore:', error);
+      console.error('MySQL Error:', error.sqlMessage);
+      res.status(500).send('Internal Server Error');
     }
-}
+  }
 
 
 // Display the edit store page
