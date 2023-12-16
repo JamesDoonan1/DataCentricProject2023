@@ -1,6 +1,8 @@
 const { MongoClient } = require('mongodb');
 // Connection URL with Database Name
-const url = 'mongodb://localhost:27017/proj2023MongoDB';
+const url = 'mongodb://127.0.0.1:27017/proj2023MongoDB';
+const dbName = 'proj2023MongoDB';
+const collectionName = 'managers';
 
 // Function to get the managers collection
 async function getManagersCollection() {
@@ -8,11 +10,12 @@ async function getManagersCollection() {
 
   try {
     await client.connect();
-    const database = client.db(); // No need to specify dbName here
-    const managersCollection = database.collection('managers');
+    const database = client.db(dbName); // No need to specify dbName here
+    const managersCollection = database.collection(collectionName);
     return managersCollection;
-  } finally {
-    await client.close();
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error.message);
+    throw error;
   }
 }
 

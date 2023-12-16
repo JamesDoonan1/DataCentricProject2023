@@ -19,5 +19,6 @@
     "mysql2": "^3.6.5",
     "promise-mysql": "^5.2.0"
   },
+  "devDependencies": {},
   "description": ""
 }
