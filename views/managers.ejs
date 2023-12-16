@@ -1,16 +1,150 @@
+<!-- managers.ejs -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Managers Page</title>
+  <style>
+    .add-manager-form {
+      display: none;
+    }
+
+    .error-message {
+      color: red;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+  </style>
 </head>
+
 <body>
   <h1>Managers</h1>
-  <ul>
-    <% managers.forEach(manager => { %>
-      <li><%= manager.name %> - <%= manager.salary %></li>
-    <% }) %>
-  </ul>
+
+
+
+  <!-- Display error messages -->
+  <div id="error-messages" class="error-message"></div>
+
+  <!-- Toggleable form for adding a manager -->
+  <button onclick="toggleForm()">Add Manager</button>
+  <div class="add-manager-form">
+    <!-- Form for adding a manager -->
+
+    <h4> Manager ID must be 4 characters in length.</h4>
+    <h4> Name must be > 5 characters</h4>
+    <h4> Salary must be between 30,000 and 70,000.</h4>
+    <form id="addManagerForm" action="/managers" method="post" onsubmit="return validateForm()">
+      <!-- Include form fields, e.g., id, name, and salary -->
+      <label for="id">Manager ID:</label>
+      <input type="text" id="_id" name="_id" required>
+      <br>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+      <br>
+      <label for="salary">Salary:</label>
+      <input type="number" id="salary" name="salary" required>
+      <br>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <!-- Link back to Main Page -->
+  <a href="/">Back to Main Page</a>
+
+  <!-- Display managers in a table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Manager ID</th>
+        <th>Name</th>
+        <th>Salary</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% managers.forEach(manager=> { %>
+        <tr>
+          <td>
+            <%= manager._id %>
+          </td>
+          <td>
+            <%= manager.name %>
+          </td>
+          <td>
+            <%= manager.salary %>
+          </td>
+        </tr>
+        <% }) %>
+    </tbody>
+  </table>
+
+
+  <script>
+    async function toggleForm() {
+      const form = document.querySelector('.add-manager-form');
+      form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
+      // Clear previous error messages on toggle
+      document.getElementById('error-messages').innerHTML = '';
+    }
+  
+    async function validateForm() {
+      const idInput = document.getElementById('_id');
+      const nameInput = document.getElementById('name');
+      const salaryInput = document.getElementById('salary');
+      const errorMessages = document.getElementById('error-messages');
+  
+      // Validate Manager ID
+      if (idInput.value.length !== 4) {
+        errorMessages.innerHTML = 'Manager ID must be 4 characters in length.';
+        return false;
+      }
+  
+      // Validate Name
+      if (nameInput.value.length <= 5) {
+        errorMessages.innerHTML = 'Name must be more than 5 characters.';
+        return false;
+      }
+  
+      // Validate Salary
+      const salaryValue = parseFloat(salaryInput.value);
+      if (isNaN(salaryValue) || salaryValue < 30000 || salaryValue > 70000) {
+        errorMessages.innerHTML = 'Salary must be between 30,000 and 70,000.';
+        return false;
+      }
+  
+      // Check if Manager ID is unique
+      const isUniqueId = await isManagerIdUnique(idInput.value);
+      if (!isUniqueId) {
+        errorMessages.innerHTML = 'Manager ID is already in use. Choose a different one.';
+        return false;
+      }
+  
+      // Clear previous error messages
+      errorMessages.innerHTML = '';
+  
+      // If all validations pass, the form will submit
+      return true;
+    }
+  
+    async function isManagerIdUnique(managerId) {
+      // Make an asynchronous request to check the uniqueness of managerId
+      const response = await fetch(`/check-unique-manager-id?managerId=${managerId}`);
+      const result = await response.json();
+      return result.isUnique;
+    }
+  </script>
 </body>
+
 </html>
