@@ -1,34 +1,102 @@
-<!-- views/products.ejs -->
+<!DOCTYPE html>
+<html lang="en">
 
-<h1>Products Page</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products Page</title>
+    <!-- Add any additional styles or links to external stylesheets here -->
+    <link rel="stylesheet" href="/styles/style.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ecf0f1; /* Light gray background color */
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            color: #2c3e50; /* Dark gray text color */
+        }
 
-<table>
-    <thead>
-        <tr>
-            <th>Product ID</th>
-            <th>Product Description</th>
-            <th>Store ID</th>
-            <th>Location</th>
-            <th>Price</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% products.forEach(product => { %>
+        header {
+            background-color: #2ecc71; /* Green header color */
+            padding: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            color: #fff; /* White text color */
+        }
+
+        table {
+            margin: 20px auto;
+            width: 80%;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            border: 1px solid #bdc3c7; /* Light border color */
+            padding: 8px;
+        }
+
+        th {
+            background-color: #2ecc71; /* Green header color */
+            color: #fff; /* White text color */
+        }
+
+        tbody tr:hover {
+            background-color: #ecf0f1; /* Light gray background on hover */
+        }
+
+        a {
+            color: #3498db; /* Blue link color */
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #2980b9; /* Lighter blue on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Products Page</h1>
+    </header>
+
+    <table>
+        <thead>
             <tr>
-                <td><%= product.productId %></td>
-                <td><%= product.productDescription %></td>
-                <td><%= product.storeId %></td>
-                <td><%= product.location %></td>
-                <td><%= product.price %></td>
-                <td>
-                    <form action="/products/delete/<%= product.productId %>" method="get">
-                        <button type="submit">Delete</button>
-                    </form>
-                </td>
+                <th>Product ID</th>
+                <th>Product Description</th>
+                <th>Store ID</th>
+                <th>Location</th>
+                <th>Price</th>
+                <th>Action</th>
             </tr>
-        <% }); %>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            <% products.forEach(product => { %>
+                <tr>
+                    <td><%= product.productId %></td>
+                    <td><%= product.productDescription %></td>
+                    <td><%= product.storeId %></td>
+                    <td><%= product.location %></td>
+                    <td><%= product.price %></td>
+                    <td>
+                        <form action="/products/delete/<%= product.productId %>" method="get">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
 
-<a href="/">Back to Home</a>
+    <a href="/">Back to Home</a>
+</body>
+
+</html>
