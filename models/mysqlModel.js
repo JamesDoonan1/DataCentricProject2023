@@ -64,14 +64,14 @@ async function getAllProducts() {
         SELECT
             p.pid AS productId,
             p.productdesc AS productDescription,
-            s.sid AS storeId,
-            s.location,
-            ps.price
+            COALESCE(s.sid, '') AS storeId,
+            COALESCE(s.location, '') AS location,
+            COALESCE(ps.price, '') AS price
         FROM
             product p
-        JOIN
+        LEFT JOIN
             product_store ps ON p.pid = ps.pid
-        JOIN
+        LEFT JOIN
             store s ON ps.sid = s.sid;
     `;
 
@@ -98,7 +98,7 @@ async function deleteProduct(pid) {
 }
 
 async function isProductSold(productId) {
-    const sql = 'SELECT COUNT(*) AS count FROM product WHERE pid = ?';
+    const sql = 'SELECT COUNT(*) AS count FROM product_store WHERE pid = ?';
     const result = await query(sql, [productId]);
 
     // Check if the count is greater than 0, meaning the product is associated with stores
