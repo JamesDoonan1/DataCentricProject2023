@@ -1,6 +1,7 @@
 // controllers/productsController.js
 const mysqlModel = require('../models/mysqlModel');
 
+
 async function getProductsPage(req, res) {
     try {
         // Retrieve all products with store information
@@ -16,7 +17,18 @@ async function deleteProduct(req, res) {
     try {
         const productId = req.params.productId;
 
-        // Delete the product by ID
+        // Check if the product is associated with stores
+        const isSold = await mysqlModel.isProductSold(productId);
+
+        if (isSold) {
+            // If the product is associated with stores, show an error message
+            return res.status(400).render('error', {
+                message: 'Product is associated with one or more stores and cannot be deleted',
+                backLink: '/products',
+            });
+        }
+
+        // If the product is not associated with stores, proceed with deletion
         await mysqlModel.deleteProduct(productId);
 
         // If deletion is successful, redirect to the products page or another appropriate page
@@ -28,6 +40,7 @@ async function deleteProduct(req, res) {
         res.status(400).render('error', { message: error.message, backLink: '/' });
     }
 }
+
 
 module.exports = {
     getProductsPage,

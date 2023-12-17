@@ -97,12 +97,22 @@ async function deleteProduct(pid) {
     }
 }
 
+async function isProductSold(productId) {
+    const sql = 'SELECT COUNT(*) AS count FROM product WHERE pid = ?';
+    const result = await query(sql, [productId]);
+
+    // Check if the count is greater than 0, meaning the product is associated with stores
+    return result[0].count > 0;
+}
+
 module.exports = {
+
     getAllStores,
     addStore,
     getStoreById,
     updateStore,
     getAllProducts,
     deleteProduct,
+    isProductSold,
     // Add other exported functions here
 };

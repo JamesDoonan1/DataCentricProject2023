@@ -22,7 +22,7 @@
                 <td><%= product.location %></td>
                 <td><%= product.price %></td>
                 <td>
-                    <form action="/products/delete/<%= product.productId %>" method="post">
+                    <form action="/products/delete/<%= product.productId %>" method="get">
                         <button type="submit">Delete</button>
                     </form>
                 </td>
