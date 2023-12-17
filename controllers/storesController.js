@@ -30,7 +30,7 @@ async function postAddStore(req, res) {
         const isManagerIdExists = await mysqlModel.isManagerIdExists(mgrid);
         if (isManagerIdExists) {
             return res.render('error', {
-                message: 'Manager ID already exists. Please choose a different Manager ID.',
+                message: 'Manager ID already manages another store. Please choose a different Manager ID.',
                 backLink: '/stores/add', // Adjust the link based on your routes
             });
         }
@@ -86,7 +86,7 @@ async function postEditStore(req, res) {
             if (error.code === 'ER_DUP_ENTRY') {
                 // Handle duplicate entry error
                 return res.render('error', {
-                    message: `Manager ID '${mgrid}' already exists. Please choose a different Manager ID.`,
+                    message: `Manager ID '${mgrid}' already manages another store. Please choose a different Manager ID.`,
                     backLink: '/stores/edit/' + storeId, // Adjust the link based on your routes
                 });
             } else {
