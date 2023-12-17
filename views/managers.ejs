@@ -39,7 +39,7 @@
   <div id="error-messages" class="error-message"></div>
 
   <!-- Toggleable form for adding a manager -->
-  <button onclick="toggleForm()">Add Manager</button>
+  <button onclick="toggleForm(event)">Add Manager</button>
   <div class="add-manager-form">
     <!-- Form for adding a manager -->
 
@@ -57,7 +57,7 @@
       <label for="salary">Salary:</label>
       <input type="number" id="salary" name="salary" required>
       <br>
-      <button type="submit">Submit</button>
+      <button type="submit" onclick="return validateForm(event)">Submit</button>
     </form>
   </div>
 
@@ -108,12 +108,14 @@
       // Validate Manager ID
       if (idInput.value.length !== 4) {
         errorMessages.innerHTML = 'Manager ID must be 4 characters in length.';
+        event.preventDefault();
         return false;
       }
   
       // Validate Name
       if (nameInput.value.length <= 5) {
         errorMessages.innerHTML = 'Name must be more than 5 characters.';
+        event.preventDefault();
         return false;
       }
   
@@ -121,6 +123,7 @@
       const salaryValue = parseFloat(salaryInput.value);
       if (isNaN(salaryValue) || salaryValue < 30000 || salaryValue > 70000) {
         errorMessages.innerHTML = 'Salary must be between 30,000 and 70,000.';
+        event.preventDefault();
         return false;
       }
   
@@ -142,6 +145,7 @@
       // Make an asynchronous request to check the uniqueness of managerId
       const response = await fetch(`/check-unique-manager-id?managerId=${managerId}`);
       const result = await response.json();
+      event.preventDefault();
       return result.isUnique;
     }
   </script>
