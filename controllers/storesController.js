@@ -19,24 +19,34 @@ function getAddStorePage(req, res) {
 //add stores
 async function postAddStore(req, res) {
     try {
-      const { sid, location, mgrid } = req.body;
-  
-      // Check if location and mgrid are defined before using them
-      if (!location || !mgrid) {
-        return res.status(400).send('Location and Manager ID are required');
-      }
-  
-      const storeData = { sid, location, mgrid };
-      await mysqlModel.addStore(storeData);
-  
-      // Redirect to the stores page after successful addition
-      res.redirect('/stores');
+        const { sid, location, mgrid } = req.body;
+
+        // Check if location and mgrid are defined before using them
+        if (!location || !mgrid) {
+            return res.status(400).send('Location and Manager ID are required');
+        }
+
+        // Check if manager ID already exists
+        const isManagerIdExists = await mysqlModel.isManagerIdExists(mgrid);
+        if (isManagerIdExists) {
+            return res.render('error', {
+                message: 'Manager ID already exists. Please choose a different Manager ID.',
+                backLink: '/stores/add', // Adjust the link based on your routes
+            });
+        }
+
+        const storeData = { sid, location, mgrid };
+        await mysqlModel.addStore(storeData);
+
+        // Redirect to the stores page after successful addition
+        res.redirect('/stores');
     } catch (error) {
-      console.error('Error in postAddStore:', error);
-      console.error('MySQL Error:', error.sqlMessage);
-      res.status(500).send('Internal Server Error');
+        console.error('Error in postAddStore:', error);
+        console.error('Error message:', error.message); // Log the specific error message
+        console.error('MySQL Error:', error.sqlMessage);
+        res.status(500).send('Internal Server Error');
     }
-  }
+}
 
 
 // Display the edit store page
@@ -68,10 +78,23 @@ async function postEditStore(req, res) {
         }
 
         // Update the store in the database
-        await mysqlModel.updateStore(storeId, { location, mgrid });
-
-        // Redirect to the stores page after successful update
-        res.redirect('/stores');
+        try {
+            await mysqlModel.updateStore(storeId, { location, mgrid });
+            // Redirect to the stores page after successful update
+            res.redirect('/stores');
+        } catch (error) {
+            if (error.code === 'ER_DUP_ENTRY') {
+                // Handle duplicate entry error
+                return res.render('error', {
+                    message: `Manager ID '${mgrid}' already exists. Please choose a different Manager ID.`,
+                    backLink: '/stores/edit/' + storeId, // Adjust the link based on your routes
+                });
+            } else {
+                // Handle other errors
+                console.error('Error updating store:', error);
+                res.status(500).send('Internal Server Error');
+            }
+        }
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');

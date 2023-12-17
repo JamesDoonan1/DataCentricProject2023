@@ -1,17 +1,34 @@
 <!-- views/editStore.ejs -->
 
+<div id="errorMessage"></div>
+
 <h1>Edit Store</h1>
 
 <form action="/stores/edit/<%= store.sid %>" method="post">
+    <label for="sid">Store ID:</label>
+    <input type="text" id="sid" name="sid" value="<%= store.sid %>" readonly>
+    <!-- Use readonly to make it non-editable -->
+
     <label for="location">Location:</label>
     <input type="text" id="location" name="location" value="<%= store.location %>" required>
 
     <label for="mgrid">Manager ID:</label>
-    <input type="text" id="mgrid" name="mgrid" value="<%= store.mgrid %>" required>
-
-    <!-- Add other form fields as needed -->
-
+    <input type="text" id="mgrid" name="mgrid" value="<%= store.mgrid %>" required pattern="[A-Za-z0-9]{4}">
+    
     <button type="submit">Update Store</button>
 </form>
 
 <a href="/stores">Back to Stores</a>
+
+<script>
+    // Function to handle form submission and update error message
+    function handleFormSubmission() {
+        // Reset previous error message
+        document.getElementById('errorMessage').innerHTML = '';
+
+        // Perform additional client-side validations if needed
+
+        // Return true to submit the form, or false to prevent submission
+        return true;
+    }
+</script>

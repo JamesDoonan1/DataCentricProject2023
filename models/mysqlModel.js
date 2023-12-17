@@ -105,6 +105,16 @@ async function isProductSold(productId) {
     return result[0].count > 0;
 }
 
+async function isManagerIdExists(mgrid) {
+    try {
+        const results = await query('SELECT COUNT(*) AS count FROM store WHERE mgrid = ?', [mgrid]);
+        return results[0].count > 0;
+    } catch (error) {
+        console.error('Error in isManagerIdExists:', error);
+        throw error;
+    }
+}
+
 module.exports = {
 
     getAllStores,
@@ -114,5 +124,6 @@ module.exports = {
     getAllProducts,
     deleteProduct,
     isProductSold,
+    isManagerIdExists,
     // Add other exported functions here
 };

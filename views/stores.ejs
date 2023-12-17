@@ -2,6 +2,8 @@
 
 <h1>Stores Page</h1>
 
+<a href="/">Back to Home</a> <!-- Add this line for the link back to home -->
+
 <table>
     <thead>
         <tr>
@@ -13,7 +15,7 @@
         </tr>
     </thead>
     <tbody>
-        <% stores.forEach(store=> { %>
+        <% stores.forEach(store => { %>
             <tr>
                 <td>
                     <%= store.sid %>
@@ -30,7 +32,7 @@
                     <!-- Add other action links as needed -->
                 </td>
             </tr>
-            <% }); %>
+        <% }); %>
     </tbody>
 </table>
 
