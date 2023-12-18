@@ -45,5 +45,4 @@ async function deleteProduct(req, res) {
 module.exports = {
     getProductsPage,
     deleteProduct
-    // Add other exported functions here
 };

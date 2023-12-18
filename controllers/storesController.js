@@ -16,7 +16,6 @@ function getAddStorePage(req, res) {
     res.render('addStores');
 }
 
-//add stores
 async function postAddStore(req, res) {
     try {
         const { sid, location, mgrid } = req.body;
@@ -26,13 +25,32 @@ async function postAddStore(req, res) {
             return res.status(400).send('Location and Manager ID are required');
         }
 
+        // Check the length of the Store ID
+        const maxSidLength = 5;
+        if (sid.length != maxSidLength) {
+            return res.status(400).set('Content-Type', 'text/html').send(`
+                <p>${`Store ID must be ${maxSidLength} characters long`}</p>
+                <a href="/stores/add">Go back</a>
+            `);
+        }
+
         // Check if manager ID already exists
         const isManagerIdExists = await mysqlModel.isManagerIdExists(mgrid);
         if (isManagerIdExists) {
             return res.render('error', {
                 message: 'Manager ID already manages another store. Please choose a different Manager ID.',
-                backLink: '/stores/add', // Adjust the link based on your routes
+                backLink: '/stores/add',
             });
+
+            
+        }
+        // Check the length of the Manager ID
+        const maxMgridLength = 4;
+        if (mgrid.length != maxMgridLength) {
+            return res.status(400).set('Content-Type', 'text/html').send(`
+                <p>${`Manager ID must be ${maxMgridLength} characters long`}</p>
+                <a href="/stores/add">Go back</a>
+            `);
         }
 
         const storeData = { sid, location, mgrid };
@@ -47,7 +65,6 @@ async function postAddStore(req, res) {
         res.status(500).send('Internal Server Error');
     }
 }
-
 
 // Display the edit store page
 async function getEditStorePage(req, res) {

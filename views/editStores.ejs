@@ -71,7 +71,7 @@
 <form action="/stores/edit/<%= store.sid %>" method="post" onsubmit="return handleFormSubmission()">
     <label for="sid">Store ID:</label>
     <input type="text" id="sid" name="sid" value="<%= store.sid %>" readonly>
-    <!-- Use readonly to make it non-editable -->
+    <!-- Use readonly to make it non-editable. This means you can change the store ID -->
 
     <label for="location">Location:</label>
     <input type="text" id="location" name="location" value="<%= store.location %>" required>
@@ -89,8 +89,6 @@
     function handleFormSubmission() {
         // Reset previous error message
         document.getElementById('errorMessage').innerHTML = '';
-
-        // Perform additional client-side validations if needed
 
         // Return true to submit the form, or false to prevent submission
         return true;

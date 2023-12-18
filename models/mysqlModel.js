@@ -125,5 +125,4 @@ module.exports = {
     deleteProduct,
     isProductSold,
     isManagerIdExists,
-    // Add other exported functions here
 };
