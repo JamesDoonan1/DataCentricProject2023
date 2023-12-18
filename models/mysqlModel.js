@@ -14,9 +14,11 @@ async function getAllStores() {
     try {
         const results = await query('SELECT * FROM store');
         return results;
+
     } catch (error) {
-        console.error('Error in getAllStores:', error);
+        console.error('Error in getAllStores: ', error);
         throw error;
+
     }
 }
 
@@ -27,10 +29,12 @@ async function addStore(storeData) {
 
     try {
         await query(queryStr, values);
+
     } catch (error) {
-        console.error('Error in addStore:', error);
+        console.error('Error in addStore: ', error);
         console.error('MySQL Error:', error.sqlMessage);
         throw error;
+
     }
 }
 
@@ -39,9 +43,11 @@ async function getStoreById(storeId) {
     try {
         const results = await query('SELECT * FROM store WHERE sid = ?', [storeId]);
         return results.length ? results[0] : null;
+
     } catch (error) {
-        console.error('Error in getStoreById:', error);
+        console.error('Error in getStoreById: ', error);
         throw error;
+
     }
 }
 
@@ -52,9 +58,11 @@ async function updateStore(storeId, data) {
     try {
         await query(sql, values);
         return { success: true, message: 'Store updated successfully' };
+
     } catch (error) {
-        console.error('Error updating store:', error);
+        console.error('Error updating store: ', error);
         throw error;
+
     }
 }
 
@@ -77,9 +85,11 @@ async function getAllProducts() {
     try {
         const results = await query(sql);
         return results;
+
     } catch (error) {
-        console.error('Error in getAllProducts:', error);
+        console.error('Error in getAllProducts: ', error);
         throw error;
+
     }
 }
 
@@ -90,9 +100,11 @@ async function deleteProduct(pid) {
         const results = await query('DELETE FROM product WHERE pid = ?', [pid]);
         await query('COMMIT');
         return results;
+
     } catch (error) {
         await query('ROLLBACK');
         throw error;
+
     }
 }
 
@@ -108,14 +120,15 @@ async function isManagerIdExists(mgrid) {
     try {
         const results = await query('SELECT COUNT(*) AS count FROM store WHERE mgrid = ?', [mgrid]);
         return results[0].count > 0;
+
     } catch (error) {
-        console.error('Error in isManagerIdExists:', error);
+        console.error('Error in isManagerIdExists: ', error);
         throw error;
+
     }
 }
 
 module.exports = {
-
     getAllStores,
     addStore,
     getStoreById,

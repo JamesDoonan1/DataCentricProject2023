@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page</title>
-   <link rel="stylesheet" href="/styles/style.css">
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -49,6 +48,15 @@
         a:hover {
             color: #2980b9; /* Lighter blue on hover */
         }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff; /* White container background color */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+        }
     </style>
 </head>
 
@@ -57,7 +65,7 @@
         <h1>Welcome to the Home Page</h1>
     </header>
 
-    <div>
+    <div class="container">
         <h2>Quick Links:</h2>
         <ul>
             <li><a href="/stores">Stores Page</a></li>

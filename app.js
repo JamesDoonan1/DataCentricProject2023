@@ -15,6 +15,7 @@ MongoClient.connect('mongodb://127.0.0.1:27017/proj2023MongoDB')
   .then((client) => {
     db = client.db('proj2023MongoDB'); // Assign the database to the db variable
     console.log('Connected to MongoDB');
+
     // Pass the db variable to routes
     app.use((req, res, next) => {
       req.db = db;
@@ -22,7 +23,7 @@ MongoClient.connect('mongodb://127.0.0.1:27017/proj2023MongoDB')
     });
   })
   .catch((error) => {
-    console.error('Error connecting to MongoDB:', error.message);
+    console.error('Error connecting to MongoDB: ', error.message);
   });
 
 // Set the view engine to EJS
@@ -32,6 +33,7 @@ app.set('view engine', 'ejs');
 app.use(routes);
 
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

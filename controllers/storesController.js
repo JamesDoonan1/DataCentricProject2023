@@ -1,11 +1,14 @@
 const mysqlModel = require('../models/mysqlModel');
+
 async function getStoresPage(req, res) {
     try {
         const stores = await mysqlModel.getAllStores();
         res.render('stores', { stores });
+
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
+
     }
 }
 
@@ -30,6 +33,7 @@ async function postAddStore(req, res) {
                 <p>${`Store ID must be ${maxSidLength} characters long`}</p>
                 <a href="/stores/add">Go back</a>
             `);
+
         }
 
         // Check if manager ID already exists
@@ -39,7 +43,9 @@ async function postAddStore(req, res) {
                 message: 'Manager ID already manages another store. Please choose a different Manager ID.',
                 backLink: '/stores/add',
             });
+
         }
+
         // Check the length of the Manager ID
         const maxMgridLength = 4;
         if (mgrid.length != maxMgridLength) {
@@ -47,6 +53,7 @@ async function postAddStore(req, res) {
                 <p>${`Manager ID must be ${maxMgridLength} characters long`}</p>
                 <a href="/stores/add">Go back</a>
             `);
+
         }
 
         const storeData = { sid, location, mgrid };
@@ -54,11 +61,13 @@ async function postAddStore(req, res) {
 
         // Redirect to the stores page after successful addition
         res.redirect('/stores');
+
     } catch (error) {
         console.error('Error in postAddStore:', error);
         console.error('Error message:', error.message);
         console.error('MySQL Error:', error.sqlMessage);
         res.status(500).send('Internal Server Error');
+
     }
 }
 
@@ -73,9 +82,11 @@ async function getEditStorePage(req, res) {
         }
 
         res.render('editStores', { store });
+
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
+
     }
 }
 
@@ -102,15 +113,18 @@ async function postEditStore(req, res) {
                     message: `Manager ID '${mgrid}' already manages another store. Please choose a different Manager ID.`,
                     backLink: '/stores/edit/' + storeId,
                 });
+
             } else {
                 // Handle other errors
-                console.error('Error updating store:', error);
+                console.error('Error updating store: ', error);
                 res.status(500).send('Internal Server Error');
+
             }
         }
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
+        
     }
 }
 

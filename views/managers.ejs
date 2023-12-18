@@ -160,6 +160,7 @@
         errorMessages.innerHTML = 'Manager ID must be 4 characters in length.';
         event.preventDefault();
         return false;
+
       }
   
       // Validate Name
@@ -167,6 +168,7 @@
         errorMessages.innerHTML = 'Name must be more than 5 characters.';
         event.preventDefault();
         return false;
+
       }
   
       // Validate Salary
@@ -175,13 +177,16 @@
         errorMessages.innerHTML = 'Salary must be between 30,000 and 70,000.';
         event.preventDefault();
         return false;
+
       }
   
       // Check if Manager ID is unique
       const isUniqueId = await isManagerIdUnique(idInput.value);
       if (!isUniqueId) {
         errorMessages.innerHTML = 'Manager ID is already in use. Choose a different one.';
+        event.preventDefault();
         return false;
+
       }
   
       // Clear previous error messages
@@ -197,6 +202,7 @@
       const result = await response.json();
       event.preventDefault();
       return result.isUnique;
+
     }
   </script>
 </body>
