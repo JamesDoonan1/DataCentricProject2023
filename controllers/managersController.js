@@ -1,5 +1,4 @@
-// controllers/managersController.js
-const dao = require('../models/dao'); // Adjust the path accordingly
+const dao = require('../models/dao');
 
 async function getManagersPage(req, res) {
   try {
@@ -16,8 +15,6 @@ async function getManagersPage(req, res) {
 async function addManager(req, res) {
   try {
     const managersCollection = await dao.getManagersCollection();
-
-    // Assuming you have form fields like 'name' and 'salary'
     const { _id, name, salary } = req.body;
 
     // Insert the new manager into the collection
@@ -34,5 +31,4 @@ async function addManager(req, res) {
 module.exports = {
   getManagersPage,
   addManager,
-  // Add other exported functions here
 };

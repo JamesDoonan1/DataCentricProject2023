@@ -1,4 +1,3 @@
-// models/mysqlModel.js
 const mysql = require('mysql');
 const util = require('util');
 

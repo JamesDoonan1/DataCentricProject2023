@@ -10,7 +10,7 @@ async function getManagersCollection() {
 
   try {
     await client.connect();
-    const database = client.db(dbName); // No need to specify dbName here
+    const database = client.db(dbName);
     const managersCollection = database.collection(collectionName);
     return managersCollection;
   } catch (error) {
@@ -19,9 +19,6 @@ async function getManagersCollection() {
   }
 }
 
-// Add other MongoDB-related functions as needed
-
 module.exports = {
   getManagersCollection,
-  // Add other functions here
 };

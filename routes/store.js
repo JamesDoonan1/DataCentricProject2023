@@ -1,10 +1,8 @@
-// routes/storesRoutes.js
 const express = require('express');
 const router = express.Router();
 const storesController = require('../controllers/storesController');
 
 router.get('/stores', storesController.getStoresPage);
-
 
 // Display the add store page
 router.get('/stores/add', storesController.getAddStorePage);

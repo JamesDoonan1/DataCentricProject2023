@@ -1,6 +1,4 @@
-// controllers/storesController.js
 const mysqlModel = require('../models/mysqlModel');
-
 async function getStoresPage(req, res) {
     try {
         const stores = await mysqlModel.getAllStores();
@@ -41,8 +39,6 @@ async function postAddStore(req, res) {
                 message: 'Manager ID already manages another store. Please choose a different Manager ID.',
                 backLink: '/stores/add',
             });
-
-            
         }
         // Check the length of the Manager ID
         const maxMgridLength = 4;
@@ -60,7 +56,7 @@ async function postAddStore(req, res) {
         res.redirect('/stores');
     } catch (error) {
         console.error('Error in postAddStore:', error);
-        console.error('Error message:', error.message); // Log the specific error message
+        console.error('Error message:', error.message);
         console.error('MySQL Error:', error.sqlMessage);
         res.status(500).send('Internal Server Error');
     }
@@ -104,7 +100,7 @@ async function postEditStore(req, res) {
                 // Handle duplicate entry error
                 return res.render('error', {
                     message: `Manager ID '${mgrid}' already manages another store. Please choose a different Manager ID.`,
-                    backLink: '/stores/edit/' + storeId, // Adjust the link based on your routes
+                    backLink: '/stores/edit/' + storeId,
                 });
             } else {
                 // Handle other errors
@@ -118,14 +114,10 @@ async function postEditStore(req, res) {
     }
 }
 
-
 module.exports = {
     getStoresPage,
     getAddStorePage,
     postAddStore,
     getEditStorePage,
     postEditStore
-
-
-    // Add other exported functions here
 };

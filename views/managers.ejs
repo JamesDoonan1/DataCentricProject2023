@@ -93,12 +93,11 @@
   <button onclick="toggleForm(event)">Add Manager</button>
   <div class="add-manager-form">
     <!-- Form for adding a manager -->
-
     <h4> Manager ID must be 4 characters in length.</h4>
     <h4> Name must be > 5 characters</h4>
     <h4> Salary must be between 30,000 and 70,000.</h4>
     <form id="addManagerForm" action="/managers" method="post" onsubmit="return validateForm(event)">
-      <!-- Include form fields, e.g., id, name, and salary -->
+      <!-- Include form fields -->
       <label for="id">Manager ID:</label>
       <input type="text" id="_id" name="_id" required>
       <br>
